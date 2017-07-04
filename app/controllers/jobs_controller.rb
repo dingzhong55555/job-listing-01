@@ -42,7 +42,7 @@ before_action :authenticate_user!, only: [:new, :create, :update, :destroy, :edi
   def destroy
     @job = Job.find(params[:id])
     @job.destroy
-    redirect_to jobs_paths
+    redirect_to jobs_path
   end
 
   private
