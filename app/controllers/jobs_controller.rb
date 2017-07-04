@@ -3,6 +3,11 @@ before_action :authenticate_user!, only: [:new, :create, :update, :destroy, :edi
 
   def show
     @job = Job.find(params[:id])
+
+    if @job.is_hidden    
+      flash[:warning] = "The job has archived!"
+      redirect_to root_path
+    end
   end
 
   def index
