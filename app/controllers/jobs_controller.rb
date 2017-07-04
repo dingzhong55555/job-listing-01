@@ -4,14 +4,21 @@ before_action :authenticate_user!, only: [:new, :create, :update, :destroy, :edi
   def show
     @job = Job.find(params[:id])
 
-    if @job.is_hidden    
+    if @job.is_hidden
       flash[:warning] = "The job has archived!"
       redirect_to root_path
     end
   end
 
   def index
-    @jobs = Job.where(:is_hidden => false).order("created_at DESC")
+    @jobs = case params[:order]
+      when 'by_lower_bound'
+        Job.published.order('wage_lower_bound')
+      when 'by_upper_bound'
+        Job.published.order('wage_upper_bound')
+      else
+        Job.published.recent
+    end
   end
 
   def new
