@@ -1,4 +1,5 @@
 class ResumesController < ApplicationController
+
   def new
     @job = Job.find(params[:job_id])
     @resume = Resume.new
@@ -10,7 +11,7 @@ class ResumesController < ApplicationController
     @resume.job = @job
     @resume.user = current_user
 
-    if
+    if @resume.save
       flash[:notice] = "成功提交简历"
       redirect_to job_path(@job)
     else
